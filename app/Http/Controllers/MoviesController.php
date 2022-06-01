@@ -16,6 +16,8 @@ class MoviesController extends Controller
      */
     public function index()
     {
+
+        
         $popularMovies = Http::withToken(config('services.tmdb.token'))
         ->get('https://api.themoviedb.org/3/movie/popular')
         ->json()['results'];
@@ -29,11 +31,15 @@ class MoviesController extends Controller
         ->get('https://api.themoviedb.org/3/genre/movie/list')
         ->json()['genres'];
 
-
         $topRated = Http::withToken(config('services.tmdb.token'))
         ->get('https://api.themoviedb.org/3/movie/top_rated')
         ->json()['results'];
-        // dd($topRated);
+
+        $latest = Http::withToken(config('services.tmdb.token'))
+        ->get('https://api.themoviedb.org/3/movie/latest')
+        ->json();
+        
+        dd($latest);
         // $genresArray = Http::withToken(config('services.tmdb.token'))
         // ->get('https://api.themoviedb.org/3/genre/movie/list')
         // ->json()['genres'];
@@ -53,6 +59,8 @@ class MoviesController extends Controller
             $nowPlayingMovies,
             $genres,
             $topRated,
+            
+           
         );
         // dd($viewModel);
         return view('movies.index', $viewModel);

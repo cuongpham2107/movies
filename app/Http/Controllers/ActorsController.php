@@ -21,6 +21,8 @@ class ActorsController extends Controller
         ->get('https://api.themoviedb.org/3/person/popular?page='.$page)
         ->json()['results'];
 
+       
+
         $viewModel = new ActorsViewModel($popularActors,$page);
         // dd($viewModel);
         return view('actors.index', $viewModel);
