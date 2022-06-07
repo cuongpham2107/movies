@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="movie-info border-b border-gray-800">
+    <div class="movie-info border-b border-gray-800 pt-14">
         <div class="container mx-auto px-4 py-16 flex flex-col md:flex-row">
           <a href="" class="flex-none md:w-1/2 lg:w-1/3 xl:w-1/4  block">
             <img class="w-full h-auto " src="{{ $movie['poster_path'] }}" alt="">
@@ -65,7 +65,8 @@
                     </div>
                   @endif
 
-                  <div  x-show.transition.opacity="open" x-trap.noscroll="open" style="background-color: rgba(0, 0, 0, .5);" class="fixed top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto z-50">
+                  <div  x-show.transition.opacity="open" x-trap.noscroll="open" style="background-color: rgba(0, 0, 0, .5);" 
+                  class="fixed top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto z-50">
                     <div  class="container mx-auto lg:px-32 rounded-lg overflow-y-auto" >
                       <div class="bg-gray-900 rounded" @click.outside="open=false">
                         <div class="flex justify-end pr-4 pt-2">
@@ -204,6 +205,25 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="movie-similar border-b border-gray-800">
+      <div class="container mx-auto px-4 py-16">
+        <h2 class="text-4xl font-semibold">Similar Moview</h2>
+        <div class="swiper mySwiper">
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper">
+            <!-- Slides -->
+              @foreach ($similarMovies as $movie)
+              <div class="swiper-slide">
+                  <x-movie-card :movie="$movie"  />
+              </div>
+              @endforeach
+          </div>
+          <!-- If we need navigation buttons -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+      </div>
       </div>
     </div>
     

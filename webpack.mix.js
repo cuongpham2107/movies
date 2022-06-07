@@ -11,11 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 mix.disableNotifications();
-mix.browserSync( {
-    proxy: 'netflix.kennatech.vn',
-    host: 'netflix.kennatech.vn',
-    open: 'external',
-})
+
 
 mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/main.css', 'public/css', [

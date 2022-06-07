@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use App\ViewModels\TVsViewModel;
-use App\ViewModels\TVViewModel;
+use App\ViewModels\HomeViewModel;
 
-class TVController extends Controller
+class HomeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,21 +15,50 @@ class TVController extends Controller
      */
     public function index()
     {
-        $tv = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/tv/popular')
+        $popularMovies = Http::withToken(config('services.tmdb.token'))
+        ->get('https://api.themoviedb.org/3/movie/popular')
         ->json()['results'];
+        // dd($pupolarMovies);
 
+        $nowPlayingMovies = Http::withToken(config('services.tmdb.token'))
+        ->get('https://api.themoviedb.org/3/movie/now_playing')
+        ->json()['results'];
 
         $genres = Http::withToken(config('services.tmdb.token'))
         ->get('https://api.themoviedb.org/3/genre/movie/list')
         ->json()['genres'];
-        // dd($tv);
 
-        $viewModel = new TVsViewModel(
-            $tv,
+        $topRated = Http::withToken(config('services.tmdb.token'))
+        ->get('https://api.themoviedb.org/3/movie/top_rated')
+        ->json()['results'];
+
+        $latest = Http::withToken(config('services.tmdb.token'))
+        ->get('https://api.themoviedb.org/3/movie/latest')
+        ->json();
+        
+        // dd($latest);
+        // $genresArray = Http::withToken(config('services.tmdb.token'))
+        // ->get('https://api.themoviedb.org/3/genre/movie/list')
+        // ->json()['genres'];
+
+        // $genres = collect($genresArray)->mapWithKeys(function ($value){
+        //     return [$value['id'] => $value['name']];
+        // });
+        // dump($nowPlayingMovies);
+
+        // return view('index',[
+        //     'popularMovies' => $popularMovies,
+        //     'nowPlayingMovies' => $nowPlayingMovies,
+        //     'genres'=> $genres,
+        // ]);
+        $viewModel = new HomeViewModel(
+            $popularMovies,
+            $nowPlayingMovies,
             $genres,
+            $topRated,
         );
-        return view('tv.index', $viewModel);
+        // dd($viewModel);
+        return view('home.index', $viewModel);
     }
 
     /**
@@ -62,15 +90,7 @@ class TVController extends Controller
      */
     public function show($id)
     {
-        $movie = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/tv/'. $id.'?append_to_response=credits,videos,images')
-        ->json();
-
-     
-        // dump( $movie);
-        $viewModel = new TVViewModel($movie);
-
-        return view('tv.show' , $viewModel);
+        //
     }
 
     /**

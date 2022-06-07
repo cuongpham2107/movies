@@ -1,12 +1,12 @@
-
+ <div class="swiper-slide">
     <div class="mt-8">
-        <a href="{{route('movies.show', $movie['id'])}}">
+        <a href="{{route('tv.show', $movie['id'])}}">
             <img src="{{  $movie['poster_path'] }}" alt="poster"
                 class="hover:opacity-75 transition ease-in-out duration-150">
         </a>
         <div class="mt-2">
             <a href="{{route('movies.show', $movie['id'])}}" class="text-lg mt-2 hover:text-gray-300 line-clamp-2">
-                {{ $movie['title']  }}
+                {{ $movie['name']  }}
             </a>
             <div class="flex items-center text-gray-400 text-sm mt-1">
     
@@ -18,7 +18,7 @@
                 </svg>
                 <span class="ml-1">{{ $movie['vote_average'] }}</span>
                 <span class="mx-2">|</span>
-                <span>{{ $movie['release_date'] }}</span>
+                <span>{{ $movie['first_air_date'] }}</span>
             </div>
             <div class="text-gray-400 text-sm">
                 <span class="font-semibold text-white">Thể loại: </span>
@@ -27,4 +27,5 @@
             </div>
         </div>
     </div>
-
+    
+</div>

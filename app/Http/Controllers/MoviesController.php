@@ -16,30 +16,17 @@ class MoviesController extends Controller
      */
     public function index()
     {
-
-        
         $popularMovies = Http::withToken(config('services.tmdb.token'))
         ->get('https://api.themoviedb.org/3/movie/popular')
         ->json()['results'];
         // dd($pupolarMovies);
 
-        $nowPlayingMovies = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/movie/now_playing')
-        ->json()['results'];
-
         $genres = Http::withToken(config('services.tmdb.token'))
         ->get('https://api.themoviedb.org/3/genre/movie/list')
         ->json()['genres'];
-
-        $topRated = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/movie/top_rated')
-        ->json()['results'];
-
-        $latest = Http::withToken(config('services.tmdb.token'))
-        ->get('https://api.themoviedb.org/3/movie/latest')
-        ->json();
+       
         
-        dd($latest);
+        
         // $genresArray = Http::withToken(config('services.tmdb.token'))
         // ->get('https://api.themoviedb.org/3/genre/movie/list')
         // ->json()['genres'];
@@ -56,10 +43,7 @@ class MoviesController extends Controller
         // ]);
         $viewModel = new MoviesViewModel(
             $popularMovies,
-            $nowPlayingMovies,
             $genres,
-            $topRated,
-            
            
         );
         // dd($viewModel);
@@ -98,10 +82,17 @@ class MoviesController extends Controller
         $movie = Http::withToken(config('services.tmdb.token'))
         ->get('https://api.themoviedb.org/3/movie/'. $id.'?append_to_response=credits,videos,images')
         ->json();
+        $similar =  Http::withToken(config('services.tmdb.token'))
+        ->get('https://api.themoviedb.org/3/movie/'. $id.'/similar?append_to_response=credits,videos,images')
+        ->json()['results'];
+        $genres = Http::withToken(config('services.tmdb.token'))
+        ->get('https://api.themoviedb.org/3/genre/movie/list')
+        ->json()['genres'];
+        // dd($similar);
 
      
         // dump( $movie);
-        $viewModel = new MovieViewModel($movie);
+        $viewModel = new MovieViewModel($movie,$similar,$genres);
 
         return view('movies.show' , $viewModel);
     }

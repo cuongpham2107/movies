@@ -5,22 +5,22 @@ namespace App\ViewModels;
 use Spatie\ViewModels\ViewModel;
 use Carbon\Carbon;
 
-class MoviesViewModel extends ViewModel
+class HomeViewModel extends ViewModel
 {
     public $popularMovies;
-    // public $nowPlayingMovies;
+    public $nowPlayingMovies;
     public $genres;
-    // public $topRated;
+    public $topRated;
 
-    public function __construct($popularMovies,$genres)
+    public function __construct($popularMovies,$nowPlayingMovies,$genres, $topRated)
     {
         $this->popularMovies = $popularMovies;
 
-        // $this->nowPlayingMovies = $nowPlayingMovies;
+        $this->nowPlayingMovies = $nowPlayingMovies;
 
         $this->genres = $genres;
 
-        // $this->topRated = $topRated;
+        $this->topRated = $topRated;
     }
 
     public function popularMovies(){
@@ -28,40 +28,38 @@ class MoviesViewModel extends ViewModel
         return $this->formatMovies($this->popularMovies);//truyền biến vào hàm formatMovies sử dụng chung
     }
 
-    // public function nowPlayingMovies(){
+    public function nowPlayingMovies(){
 
-    //    return $this->formatMovies($this->nowPlayingMovies);//truyền biến vào hàm formatMovies sử dụng chung
-    // }
-
-    // public function topRated(){
-
-    //     return $this->formatMoviesTopRated($this->topRated);
-    // }
-    public function list_genres(){
-        return $this->genres;
+       return $this->formatMovies($this->nowPlayingMovies);//truyền biến vào hàm formatMovies sử dụng chung
     }
+
+    public function topRated(){
+
+        return $this->formatMoviesTopRated($this->topRated);
+    }
+     
     public function genres()
     {
         return collect($this->genres)->mapWithKeys(function ($genre){
             return [$genre['id'] => $genre['name']];
         });
     }
-    // private function formatMoviesTopRated($movies){
-    //     return collect($movies)->map(function($movie){
-    //         $genresFormatted = collect($movie['genre_ids'])->mapWithKeys(function($value){
+    private function formatMoviesTopRated($movies){
+        return collect($movies)->map(function($movie){
+            $genresFormatted = collect($movie['genre_ids'])->mapWithKeys(function($value){
                 
-    //             return  [$value =>$this->genres()->get($value)];
-    //         })->implode(', ');
+                return  [$value =>$this->genres()->get($value)];
+            })->implode(', ');
 
 
-    //         return collect($movie)->merge([
-    //             'backdrop_path' => 'https://image.tmdb.org/t/p/w1280/'.$movie['backdrop_path'], //gán thêm hàng loạt đường dẫn 
-    //             'vote_average' => $movie['vote_average'] * 10 .'%', //chuyển đổi hàng loạt đánh giá
-    //             'release_date' =>  Carbon::parse($movie['release_date'])->format('M d, Y'), //chuyển đổi hàng loạt format ngày tháng năm
-    //             'genres'=> $genresFormatted,
-    //         ]);
-    //     })->random();
-    // }
+            return collect($movie)->merge([
+                'backdrop_path' => 'https://image.tmdb.org/t/p/w1280/'.$movie['backdrop_path'], //gán thêm hàng loạt đường dẫn 
+                'vote_average' => $movie['vote_average'] * 10 .'%', //chuyển đổi hàng loạt đánh giá
+                'release_date' =>  Carbon::parse($movie['release_date'])->format('M d, Y'), //chuyển đổi hàng loạt format ngày tháng năm
+                'genres'=> $genresFormatted,
+            ]);
+        })->random();
+    }
     private function formatMovies($movies){
         // @foreach ($movie['genre_ids'] as $value) {{ $genres->get($value) }} @if (!$loop->last) ,@endif@endforeach
 

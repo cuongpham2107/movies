@@ -1,7 +1,7 @@
-<div class="relative mt-3 md:mt-0" x-data="{isOpen: true}" @click.away="isOpen = false">
+<div class="relative " x-data="{isOpen: true}" @click.away="isOpen = false">
     <input wire:model.debounce.500ms="search" 
         type="text"   
-        class="bg-white text-gray-800 text-sm rounded-full w-64 pl-8 px-4 py-1  ring-0 focus:ring-2 ring-green-300 "
+        class="bg-white text-gray-800 text-sm rounded-full w-full  pl-8 px-4 py-1  ring-0 focus:ring-2 ring-green-300 "
         
         @foucs="isOpen = true"
         @keydown="isOpen = true"

@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="movie-info border-b border-gray-800">
+    <div class="movie-info border-b border-gray-800 pt-14">
         <div class="container mx-auto px-4 py-16 flex flex-col md:flex-row">
           <div class="flex-none">
             <img class="w-full h-auto " src="{{$actor['profile_path']}}" alt="">

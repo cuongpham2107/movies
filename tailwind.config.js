@@ -8,6 +8,9 @@ module.exports = {
     extend: {
       width: {
         '96':'24rem',
+      },
+      mt:{
+        '5' : '20px'
       }
     },
     spinner:(theme) => ({
